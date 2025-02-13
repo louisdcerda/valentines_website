@@ -90,7 +90,7 @@ function initGlobe() {
     const locations = [
         { 
             lat: 39.9526, lon: -75.1652, name: "Philadelphia", 
-            message: "Where we had our first adventure ❤️",
+            message: "Philly with you these past two times have been the most fun I’ve had with you. It went by so fast but so much fun and so much food. I’ll never forget how when I came back after from the bathroom and that whole plate of food that was brought out and thought u had ordered more. Insane saige.",
             media: ["content/philly_image1.PNG", "content/philly_image2.jpg", "content/philly_image3.jpg","content/philly_image4.jpg", "content/philly_image5.jpg","content/philly_image6.jpg"]
         },
         { 
