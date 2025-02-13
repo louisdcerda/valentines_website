@@ -14,7 +14,7 @@ noButton.addEventListener('click', () => {
     noButton.innerText = "Are you sure? 😢";
     setTimeout(() => {
         noButton.innerText = "No";
-    }, 15000);
+    }, 1500);
 });
 
 // Handle Yes Button (Proceed to Globe)
@@ -39,7 +39,6 @@ yesButton.addEventListener('click', () => {
         document.querySelector('header').style.display = 'none';
     }, 10000);
 });
-
 
 // Globe Initialization
 function initGlobe() {
@@ -69,7 +68,7 @@ function initGlobe() {
     // Create a Group to Hold the Earth and Pins Together
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
-    scene.add(earthGroup);  // Add the group instead of the Earth directly
+    scene.add(earthGroup);  
 
     // Lights
     const pointLight = new THREE.PointLight(0xffffff, 2);
@@ -87,20 +86,55 @@ function initGlobe() {
     }
     Array(200).fill().forEach(addStar);
 
-    // Locations with pins and pop up message 
+    // images, pins, and locations of each city 
     const locations = [
-    { lat: 39.9526, lon: -75.1652, name: "Philadelphia", message: "Where we had our first adventure ❤️" },
-        { lat: 41.9028, lon: 12.4964, name: "Rome", message: "The city of love and history! ✨" },
-        { lat: 38.1157, lon: 13.3615, name: "Palermo", message: "Imagine strolling through Sicily together! 🌊" },
-        { lat: 47.6588, lon: -117.4260, name: "Spokane", message: "Where Gonzaga made life special 💙" },
-        { lat: 40.7831, lon: -73.9712, name: "Manhattan", message: "Our future home? 🏙️" },
-        { lat: 40.6782, lon: -73.9442, name: "Brooklyn", message: "So many memories waiting to be made! 💕" },
-        { lat: 34.0522, lon: -118.2437, name: "Los Angeles", message: "Maybe a beach day soon? 🌴" },
-        { lat: 41.8781, lon: -87.6298, name: "Chicago", message: "Deep-dish pizza date incoming! 🍕" },
-        { lat: 33.4270, lon: -117.6120, name: "San Clemente", message: "Sunsets here would be magical 🌅" },
-        { lat: 48.2082, lon: 16.3738, name: "Vienna", message: "Dancing to classical music in Vienna? 🎻💃" }
+        { 
+            lat: 39.9526, lon: -75.1652, name: "Philadelphia", 
+            message: "Where we had our first adventure ❤️",
+            media: ["content/philly_image1.PNG", "content/philly_image2.jpg", "content/philly_image3.jpg","content/philly_image4.jpg", "content/philly_image5.jpg","content/philly_image6.jpg"]
+        },
+        { 
+            lat: 41.9028, lon: 12.4964, name: "Rome", 
+            message: "The city of love and history! ✨",
+            media: ["images/rome1.jpg", "images/rome2.jpg", "videos/rome_video.mp4"]
+        },
+        { 
+            lat: 38.1157, lon: 13.3615, name: "Palermo", 
+            message: "Imagine strolling through Sicily together! 🌊",
+            media: ["images/palermo1.jpg", "images/palermo2.jpg"]
+        },
+        { 
+            lat: 47.6588, lon: -117.4260, name: "Spokane", 
+            message: "Where Gonzaga made life special 💙",
+            media: ["content/spokane_image1.jpg", "content/spokane_iamge2.jpg","content/spokane_image3.JPG","content/spokane_image4.jpg",]
+        },
+        { 
+            lat: 40.7831, lon: -73.9712, name: "New York", 
+            message: "Our future home? 🏙️",
+            media: ["content/nyc_image1.jpg", "content/nyc_image2.jpg", "content/nyc_image3.jpg"]
+        },
+        { 
+            lat: 34.0522, lon: -118.2437, name: "Los Angeles", 
+            message: "Maybe a beach day soon? 🌴",
+            media: ["content/la_image1.JPG", "content/la_image2.jpg"]
+        },
+        { 
+            lat: 41.8781, lon: -87.6298, name: "Chicago", 
+            message: "Deep-dish pizza date incoming! 🍕",
+            media: ["content/chicago_image1.JPG", "content/chicago_image1.jpg","content/chicago_image2.jpg"]
+        },
+        { 
+            lat: 33.4270, lon: -117.6120, name: "San Clemente", 
+            message: "Sunsets here would be magical 🌅",
+            media: ["content/sanclem_image1.JPG", "content/sanclem_image2.jpg", "content/sanclem_movie.mov"]
+        },
+        { 
+            lat: 48.2082, lon: 16.3738, name: "Vienna", 
+            message: "Dancing to classical music in Vienna? 🎻💃",
+            media: ["images/vienna1.jpg", "images/vienna2.jpg", "videos/vienna_video.mp4"]
+        }
     ];
-
+    
 
     // Function to convert lat/lon to 3D coordinates
     function latLonToVector3(lat, lon, radius) {
@@ -121,15 +155,15 @@ function initGlobe() {
     locations.forEach(location => {
         const pin = new THREE.Mesh(pinGeometry, pinMaterial);
         pin.position.copy(latLonToVector3(location.lat, location.lon, 5.1));
-        earthGroup.add(pin);  // Add pins to the Earth group
-        pins.push({ mesh: pin, name: location.name });
+        earthGroup.add(pin);  
+        pins.push({ mesh: pin, name: location.name, message: location.message, media: location.media });
     });
 
-    // Click Interaction
-    const raycaster = new THREE.Raycaster();
+    // Define mouse vector for raycasting
     const mouse = new THREE.Vector2();
+    const raycaster = new THREE.Raycaster();
 
-    // Click Interaction - Opens Pop-Up with Unique Message
+    // Click Interaction - Opens Pop-Up with Unique Message & Carousel
     window.addEventListener('click', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -140,31 +174,57 @@ function initGlobe() {
         if (intersects.length > 0) {
             const clickedPin = pins.find(p => p.mesh === intersects[0].object);
             if (clickedPin) {
-                showPopup(clickedPin.name, clickedPin.message);
+                showPopup(clickedPin.name, clickedPin.message, clickedPin.media);
             }
         }
     });
 
 
-    // Function to Show a Pop-Up with Unique Text
-    function showPopup(locationName, message) {
+    // Function to Show Pop-Up with a Carousel
+    function showPopup(locationName, message, media) {
+        let mediaIndex = 0;
+
+        function getMediaHTML() {
+            const currentMedia = media[mediaIndex];
+            if (currentMedia.endsWith(".mp4")) {
+                return `<video src="${currentMedia}" controls autoplay muted width="300"></video>`;
+            } else {
+                return `<img src="${currentMedia}" width="300" height="200" style="border-radius:10px;">`;
+            }
+        }
+
         popup.innerHTML = `
             <p><strong>${locationName}</strong></p>
             <p>${message}</p>
+            <div id="carousel-container">
+                ${getMediaHTML()}
+            </div>
+            <div>
+                <button id="prev-btn">⬅️</button>
+                <button id="next-btn">➡️</button>
+            </div>
             <button id="close-popup">Close</button>
         `;
         popup.style.display = 'block';
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            mediaIndex = (mediaIndex - 1 + media.length) % media.length;
+            document.getElementById('carousel-container').innerHTML = getMediaHTML();
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            mediaIndex = (mediaIndex + 1) % media.length;
+            document.getElementById('carousel-container').innerHTML = getMediaHTML();
+        });
 
         document.getElementById('close-popup').addEventListener('click', () => {
             popup.style.display = 'none';
         });
     }
 
-
-    // Animation Loop
     function animate() {
         requestAnimationFrame(animate);
-        earthGroup.rotation.y += 0.002;  // Rotate the whole group (Earth and Pins)
+        earthGroup.rotation.y += 0.002;  
         controls.update();
         renderer.render(scene, camera);
     }
