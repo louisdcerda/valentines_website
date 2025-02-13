@@ -22,12 +22,24 @@ yesButton.addEventListener('click', () => {
     overlay.style.display = 'none'; // Remove blur and popup
     canvas.style.display = 'block'; // Show the globe
     initGlobe(); // Start the 3D scene
-    // Hide header after 30 seconds
-    setTimeout(() => {
-      document.querySelector('header').style.display = 'none';
-    }, 10000); // 10 seconds
 
+    // Show Spotify player
+    const musicContainer = document.getElementById('music-container');
+    musicContainer.style.display = 'block';
+
+    // Reload the iframe to refresh Spotify playback
+    const spotifyIframe = document.getElementById('spotify-player');
+    const newSrc = spotifyIframe.src; 
+    spotifyIframe.src = ''; // Temporarily remove src
+    setTimeout(() => {
+        spotifyIframe.src = newSrc; // Reload with original src to force reload
+    }, 500);
+
+    setTimeout(() => {
+        document.querySelector('header').style.display = 'none';
+    }, 10000);
 });
+
 
 // Globe Initialization
 function initGlobe() {
@@ -75,19 +87,20 @@ function initGlobe() {
     }
     Array(200).fill().forEach(addStar);
 
-    // Locations with Pins
+    // Locations with pins and pop up message 
     const locations = [
-        { lat: 39.9526, lon: -75.1652, name: "Philadelphia" },
-        { lat: 41.9028, lon: 12.4964, name: "Rome" },
-        { lat: 38.1157, lon: 13.3615, name: "Palermo" },
-        { lat: 47.6588, lon: -117.4260, name: "Spokane" },
-        { lat: 40.7831, lon: -73.9712, name: "Manhattan" },
-        { lat: 40.6782, lon: -73.9442, name: "Brooklyn" },
-        { lat: 34.0522, lon: -118.2437, name: "Los Angeles" },
-        { lat: 41.8781, lon: -87.6298, name: "Chicago" },
-        { lat: 33.4270, lon: -117.6120, name: "San Clemente" },
-        { lat: 48.2082, lon: 16.3738, name: "Vienna" }
+    { lat: 39.9526, lon: -75.1652, name: "Philadelphia", message: "Where we had our first adventure ❤️" },
+        { lat: 41.9028, lon: 12.4964, name: "Rome", message: "The city of love and history! ✨" },
+        { lat: 38.1157, lon: 13.3615, name: "Palermo", message: "Imagine strolling through Sicily together! 🌊" },
+        { lat: 47.6588, lon: -117.4260, name: "Spokane", message: "Where Gonzaga made life special 💙" },
+        { lat: 40.7831, lon: -73.9712, name: "Manhattan", message: "Our future home? 🏙️" },
+        { lat: 40.6782, lon: -73.9442, name: "Brooklyn", message: "So many memories waiting to be made! 💕" },
+        { lat: 34.0522, lon: -118.2437, name: "Los Angeles", message: "Maybe a beach day soon? 🌴" },
+        { lat: 41.8781, lon: -87.6298, name: "Chicago", message: "Deep-dish pizza date incoming! 🍕" },
+        { lat: 33.4270, lon: -117.6120, name: "San Clemente", message: "Sunsets here would be magical 🌅" },
+        { lat: 48.2082, lon: 16.3738, name: "Vienna", message: "Dancing to classical music in Vienna? 🎻💃" }
     ];
+
 
     // Function to convert lat/lon to 3D coordinates
     function latLonToVector3(lat, lon, radius) {
@@ -116,29 +129,37 @@ function initGlobe() {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
+    // Click Interaction - Opens Pop-Up with Unique Message
     window.addEventListener('click', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
+        
         const intersects = raycaster.intersectObjects(pins.map(p => p.mesh));
 
         if (intersects.length > 0) {
             const clickedPin = pins.find(p => p.mesh === intersects[0].object);
             if (clickedPin) {
-                showPopup(clickedPin.name);
+                showPopup(clickedPin.name, clickedPin.message);
             }
         }
     });
 
-    // Function to Show opo up
-    function showPopup(locationName) {
-        popup.innerHTML = `<p>${locationName}</p> <button id="close-popup">Close</button>`;
+
+    // Function to Show a Pop-Up with Unique Text
+    function showPopup(locationName, message) {
+        popup.innerHTML = `
+            <p><strong>${locationName}</strong></p>
+            <p>${message}</p>
+            <button id="close-popup">Close</button>
+        `;
         popup.style.display = 'block';
 
         document.getElementById('close-popup').addEventListener('click', () => {
             popup.style.display = 'none';
         });
     }
+
 
     // Animation Loop
     function animate() {
