@@ -34,12 +34,6 @@ yesButton.addEventListener('click', () => {
     const spotifyIframe = document.getElementById('spotify-player');
     spotifyIframe.src = spotifyIframe.src; // Reload the iframe
 
-    setTimeout(() => {
-        const spotifyFrame = document.querySelector("iframe");
-        if (spotifyFrame) {
-            spotifyFrame.contentWindow.postMessage({ method: "play" }, "*");
-        }
-    }, 2000);
 });
 
 // Handle Closing the Header Pop-Up
@@ -78,6 +72,10 @@ function initGlobe() {
     earthGroup.add(earth);
     scene.add(earthGroup);  
 
+    earthGroup.rotation.y = Math.PI / -2; // rotation start at europe
+    // earthGroup.rotation.x = 0.5; 
+
+
     // Lights
     const pointLight = new THREE.PointLight(0xffffff, 2);
     pointLight.position.set(10, 10, 10);
@@ -99,7 +97,7 @@ function initGlobe() {
         { 
             lat: 39.9526, lon: -75.1652, name: "Philadelphia", 
             message: "Where we had our first adventure ❤️",
-            media: ["content/philly_image1.PNG", "content/philly_image2.jpg", "content/philly_image3.jpg","content/philly_image4.jpg", "content/philly_image5.jpg","content/philly_image6.jpg"]
+            media: ["content/philly_image3.jpg", "content/philly_image2.jpg", "content/philly_image1.PNG","content/philly_image4.jpg", "content/philly_image5.jpg","content/philly_image6.jpg"]
         },
         { 
             lat: 41.9028, lon: 12.4964, name: "Rome", 
@@ -232,7 +230,7 @@ function initGlobe() {
 
     function animate() {
         requestAnimationFrame(animate);
-        earthGroup.rotation.y += 0.002;  
+        earthGroup.rotation.y += 0.0005;  
         controls.update();
         renderer.render(scene, camera);
     }

@@ -14,14 +14,14 @@
             text-align: center;
         }
         canvas {
-            display: none; /* Initially hidden until "Yes" is clicked */
+            display: none; 
         }
         #overlay {
             position: fixed;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px); /* Blurs the background */
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -52,36 +52,29 @@
             background: #ddd;
             color: black;
         }
-        header {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px 20px;
-            border-radius: 10px;
-        }
-        /* Pop-Up Style */
+
+        /* Header Pop-Up */
         .popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 10px;
             color: black;
             font-size: 18px;
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
             text-align: center;
-            z-index: 20;
-            display: none; /* Hidden by default */
+            z-index: 200; /* Ensure it is above the Three.js canvas */
+            display: none;
         }
 
         .popup-content {
             position: relative;
         }
 
+        /* Close Button */
         .close-btn {
             top: 5px;
             right: 10px;
@@ -94,14 +87,18 @@
             transition: color 0.2s ease-in-out;
         }
 
+        .close-btn:hover {
+            color: red;
+        }
+
         /* Spotify Music Player */
         #music-container {
-            position: fixed; /* Keeps it above other content */
-            bottom: 20px; /* Adjust position from the bottom */
+            position: fixed;
+            bottom: 20px;
             left: 50%;
-            transform: translateX(-50%); /* Center it horizontally */
-            z-index: 100; /* Higher than the canvas */
-            background: rgba(255, 255, 255, 0.8); /* Optional: semi-transparent background */
+            transform: translateX(-50%);
+            z-index: 300; /* Highest z-index to stay on top */
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -112,9 +109,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1; /* Lower than the music player */
+            z-index: 1; /* Lower than popups and music container */
         }
-
 
     </style>
 </head>
@@ -130,7 +126,7 @@
 
     <canvas id="bg"></canvas>
 
-
+    <!-- Header Pop-Up -->
     <div id="header-popup" class="popup">
         <div class="popup-content">
             <span id="close-header" class="close-btn">❌</span>
@@ -139,30 +135,23 @@
         </div>
     </div>
 
+    <!-- Location Pop-Up -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span id="close-popup" class="close-btn">❌</span>
+            <p><strong id="popup-title"></strong></p>
+            <p id="popup-message"></p>
+        </div>
+    </div>
 
-    <div id="popup" style="
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        color: black;
-        font-size: 18px;
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        text-align: center;
-    "></div>
-
+    <!-- Spotify Music Player -->
     <div id="music-container" style="display: none;">
         <iframe id="spotify-player" style="border-radius:12px" 
-        src="https://open.spotify.com/embed/track/4YsnwsPURRSvprBHBY1BCd?utm_source=generator?autoplay=1" 
+            src="https://open.spotify.com/embed/track/4YsnwsPURRSvprBHBY1BCd?utm_source=generator" 
             width="300" height="80" frameborder="0" allowfullscreen 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
         </iframe>
     </div>
-
 
     <script type="module" src="/main.js"></script>
 
