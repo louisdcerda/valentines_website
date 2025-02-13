@@ -96,48 +96,48 @@ function initGlobe() {
     const locations = [
         { 
             lat: 39.9526, lon: -75.1652, name: "Philadelphia", 
-            message: "Where we had our first adventure ❤️",
+            message: "Philly with you these past two times have been the most fun I’ve had with you. It went by so fast but so much fun and so much food. I’ll never forget how when I came back after from the bathroom and that whole plate of food that was brought out and thought u had ordered more. Insane saige.",
             media: ["content/philly_image3.jpg", "content/philly_image2.jpg", "content/philly_image1.PNG","content/philly_image4.jpg", "content/philly_image5.jpg","content/philly_image6.jpg"]
         },
         { 
             lat: 41.9028, lon: 12.4964, name: "Rome", 
-            message: "The city of love and history! ✨",
-            media: ["images/rome1.jpg", "images/rome2.jpg", "videos/rome_video.mp4"]
+            message: "We’ll be here soon eating pistachio gelato",
+            media: ["content/Rome.jpg"]
         },
         { 
             lat: 38.1157, lon: 13.3615, name: "Palermo", 
-            message: "Imagine strolling through Sicily together! 🌊",
-            media: ["images/palermo1.jpg", "images/palermo2.jpg"]
+            message: "Our retreat to palermo just like white lotus ",
+            media: ["content/palermo.jpg"]
         },
         { 
             lat: 47.6588, lon: -117.4260, name: "Spokane", 
-            message: "Where Gonzaga made life special 💙",
-            media: ["content/spokane_image1.jpg", "content/spokane_iamge2.jpg","content/spokane_image3.JPG","content/spokane_image4.jpg",]
+            message: " I can’t wait for you to come back so we can f up some milk shakes again.",
+            media: ["content/spokane_image1.jpg", "content/spokane_image2.jpg","content/spokane_image3.JPG","content/spokane_image4.jpg",]
         },
         { 
             lat: 40.7831, lon: -73.9712, name: "New York", 
-            message: "Our future home? 🏙️",
+            message: "I fell for you saige 😾 from that interesting park in Brooklyn to you getting lost otw to culture and that Mexican restaurant it was such a fun summer. I can’t wait to do it again this summer",
             media: ["content/nyc_image1.jpg", "content/nyc_image2.jpg", "content/nyc_image3.jpg"]
         },
         { 
             lat: 34.0522, lon: -118.2437, name: "Los Angeles", 
-            message: "Maybe a beach day soon? 🌴",
+            message: "My favorite part was when I beat u every single time during top golf but the pics don’t show that 😾 I think the time we went to LA and then went to lighthouse cafe has been one of my favorite memories with you. You looked so happy and it was so fun. I still remember how that old lady tried dancing and that amazing neighborhood in silver lake, it’s always fun with you exploring.",
             media: ["content/la_image1.JPG", "content/la_image2.jpg"]
         },
         { 
             lat: 41.8781, lon: -87.6298, name: "Chicago", 
-            message: "Deep-dish pizza date incoming! 🍕",
-            media: ["content/chicago_image1.JPG", "content/chicago_image1.jpg","content/chicago_image2.jpg"]
+            message: "Our first trip together is still insane to think about. All that food we ate and how full we were makes me happy to think about. I appreciate you being a normal person and not being weird 🤣 I’m glad we went, it was our first trip of many. ",
+            media: ["content/chicago_image1.JPG", "content/chicago_image2.jpg","content/chicago_image3.jpg"]
         },
         { 
             lat: 33.4270, lon: -117.6120, name: "San Clemente", 
-            message: "Sunsets here would be magical 🌅",
+            message: "This is home saigeypoo. Thank you for showing me around your hometown and your favorite place to look out and eat. Idk if it’s going to show but it’s the crumbl review we did, I still think it’s funny how we held back and tried being so polite when eating all those cookies. It’s also the last time I saw you it was such a wholesome goodbye I’m glad you’re having so much fun in Vienna tho it makes me happy to know you’re exploring and treating ur self ",
             media: ["content/sanclem_image1.JPG", "content/sanclem_image2.jpg", "content/sanclem_movie.mov"]
         },
         { 
             lat: 48.2082, lon: 16.3738, name: "Vienna", 
-            message: "Dancing to classical music in Vienna? 🎻💃",
-            media: ["images/vienna1.jpg", "images/vienna2.jpg", "videos/vienna_video.mp4"]
+            message: "Can’t wait to see ur everyday view and go to the jazz bar finally",
+            media: ["content/Vienna.jpg"]
         }
     ];
     
