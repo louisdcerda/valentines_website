@@ -2,47 +2,43 @@ import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// Get UI Elements
 const overlay = document.getElementById('overlay');
 const yesButton = document.getElementById('yes-btn');
 const noButton = document.getElementById('no-btn');
 const canvas = document.getElementById('bg');
 const popup = document.getElementById('popup');
 
-// Handle No Button 
+
 noButton.addEventListener('click', () => {
-    noButton.innerText = "Are you sure? 😢";
+    noButton.innerText = "Im gonna pretend u misclicked ";
     setTimeout(() => {
         noButton.innerText = "No";
     }, 1500);
 });
 
 yesButton.addEventListener('click', () => {
-    overlay.style.display = 'none'; // Remove blur and popup
-    canvas.style.display = 'block'; // Show the globe
-    initGlobe(); // Start the 3D scene
+    overlay.style.display = 'none'; // remove blur and popup
+    canvas.style.display = 'block'; // show globe
+    initGlobe(); // start scene
 
-    // Show the header pop-up
+    // show header pop up
     const headerPopup = document.getElementById('header-popup');
     headerPopup.style.display = 'block';
 
-    // Show Spotify player
+    // show spotify player
     const musicContainer = document.getElementById('music-container');
     musicContainer.style.display = 'block';
 
-    // Reload the iframe to refresh Spotify playback
     const spotifyIframe = document.getElementById('spotify-player');
-    spotifyIframe.src = spotifyIframe.src; // Reload the iframe
+    spotifyIframe.src = spotifyIframe.src; 
 
 });
 
-// Handle Closing the Header Pop-Up
 document.getElementById('close-header').addEventListener('click', () => {
     document.getElementById('header-popup').style.display = 'none';
 });
 
 
-// Globe Initialization
 function initGlobe() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -58,30 +54,28 @@ function initGlobe() {
     controls.minDistance = 6;  
     controls.maxDistance = 20; 
 
-    // Load Earth Texture
     const textureLoader = new THREE.TextureLoader();
     const earthTexture = textureLoader.load('https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg');
 
-    // Create Earth
+    // create earth and earth group and structure
     const earthGeometry = new THREE.SphereGeometry(5, 64, 64);
     const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     
-    // Create a Group to Hold the Earth and Pins Together
     const earthGroup = new THREE.Group();
     earthGroup.add(earth);
     scene.add(earthGroup);  
 
     earthGroup.rotation.y = Math.PI / -2; // rotation start at europe
-    // earthGroup.rotation.x = 0.5; 
+    // earthGroup.rotation.x = 0.5;  // makes starting x axis weird - not needed 
 
 
-    // Lights
+    // light
     const pointLight = new THREE.PointLight(0xffffff, 2);
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight, new THREE.AmbientLight(0xffffff, 0.3));
 
-    // Stars
+    // stars
     function addStar() {
         const geometry = new THREE.SphereGeometry(0.15, 24, 24);
         const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
@@ -142,7 +136,7 @@ function initGlobe() {
     ];
     
 
-    // Function to convert lat/lon to 3D coordinates
+    // func to convert lat/lon to 3D coords
     function latLonToVector3(lat, lon, radius) {
         const phi = (90 - lat) * (Math.PI / 180);
         const theta = (lon + 180) * (Math.PI / 180);
@@ -153,7 +147,7 @@ function initGlobe() {
         );
     }
 
-    // Create pins and add them as children of Earth
+    // create pins and add them as children of earth
     const pinGeometry = new THREE.SphereGeometry(0.15, 16, 16);
     const pinMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
@@ -165,11 +159,11 @@ function initGlobe() {
         pins.push({ mesh: pin, name: location.name, message: location.message, media: location.media });
     });
 
-    // Define mouse vector for raycasting
+    // define mouse vector for raycasting
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
 
-    // Click Interaction - Opens Pop-Up with Unique Message & Carousel
+    // opens pop up and image carousel
     window.addEventListener('click', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -186,7 +180,6 @@ function initGlobe() {
     });
 
 
-    // Function to Show Pop-Up with a Carousel
     function showPopup(locationName, message, media) {
         let mediaIndex = 0;
 
