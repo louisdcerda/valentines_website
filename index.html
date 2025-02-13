@@ -61,6 +61,61 @@
             padding: 10px 20px;
             border-radius: 10px;
         }
+        /* Pop-Up Style */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: black;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            text-align: center;
+            z-index: 20;
+            display: none; /* Hidden by default */
+        }
+
+        .popup-content {
+            position: relative;
+        }
+
+        .close-btn {
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 22px;
+            background: none;
+            border: none;
+            color: black;
+            font-weight: bold;
+            transition: color 0.2s ease-in-out;
+        }
+
+        /* Spotify Music Player */
+        #music-container {
+            position: fixed; /* Keeps it above other content */
+            bottom: 20px; /* Adjust position from the bottom */
+            left: 50%;
+            transform: translateX(-50%); /* Center it horizontally */
+            z-index: 100; /* Higher than the canvas */
+            background: rgba(255, 255, 255, 0.8); /* Optional: semi-transparent background */
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ensure the Three.js canvas is behind */
+        canvas#bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Lower than the music player */
+        }
+
+
     </style>
 </head>
 <body>
@@ -75,10 +130,15 @@
 
     <canvas id="bg"></canvas>
 
-    <header>
-        <h3>💖 Universe of Love for you Saigeypoo 💖</h3>
-        <p>Every place in the world holds a piece of our story. Explore the world and find out more</p>
-    </header>
+
+    <div id="header-popup" class="popup">
+        <div class="popup-content">
+            <span id="close-header" class="close-btn">❌</span>
+            <h3>💖 Universe of Love for you, Saigeypoo 💖</h3>
+            <p>Every place in the world holds a piece of our story. Explore the world and find out more.</p>
+        </div>
+    </div>
+
 
     <div id="popup" style="
         display: none;
@@ -97,7 +157,7 @@
 
     <div id="music-container" style="display: none;">
         <iframe id="spotify-player" style="border-radius:12px" 
-        src="https://open.spotify.com/embed/track/4YsnwsPURRSvprBHBY1BCd?utm_source=generator" 
+        src="https://open.spotify.com/embed/track/4YsnwsPURRSvprBHBY1BCd?utm_source=generator?autoplay=1" 
             width="300" height="80" frameborder="0" allowfullscreen 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
         </iframe>

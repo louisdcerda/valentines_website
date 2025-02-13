@@ -17,11 +17,14 @@ noButton.addEventListener('click', () => {
     }, 1500);
 });
 
-// Handle Yes Button (Proceed to Globe)
 yesButton.addEventListener('click', () => {
     overlay.style.display = 'none'; // Remove blur and popup
     canvas.style.display = 'block'; // Show the globe
     initGlobe(); // Start the 3D scene
+
+    // Show the header pop-up
+    const headerPopup = document.getElementById('header-popup');
+    headerPopup.style.display = 'block';
 
     // Show Spotify player
     const musicContainer = document.getElementById('music-container');
@@ -29,16 +32,21 @@ yesButton.addEventListener('click', () => {
 
     // Reload the iframe to refresh Spotify playback
     const spotifyIframe = document.getElementById('spotify-player');
-    const newSrc = spotifyIframe.src; 
-    spotifyIframe.src = ''; // Temporarily remove src
-    setTimeout(() => {
-        spotifyIframe.src = newSrc; // Reload with original src to force reload
-    }, 500);
+    spotifyIframe.src = spotifyIframe.src; // Reload the iframe
 
     setTimeout(() => {
-        document.querySelector('header').style.display = 'none';
-    }, 10000);
+        const spotifyFrame = document.querySelector("iframe");
+        if (spotifyFrame) {
+            spotifyFrame.contentWindow.postMessage({ method: "play" }, "*");
+        }
+    }, 2000);
 });
+
+// Handle Closing the Header Pop-Up
+document.getElementById('close-header').addEventListener('click', () => {
+    document.getElementById('header-popup').style.display = 'none';
+});
+
 
 // Globe Initialization
 function initGlobe() {
